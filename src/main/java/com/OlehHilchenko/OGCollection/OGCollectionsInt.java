@@ -20,8 +20,21 @@ public class OGCollectionsInt extends AbstractOGCollection implements OGCollecti
         lengthCol = m.length;
     }
 
+    private void increaseArrayMembers(int mem) {
+        if (oGCollections.length >= 1 && oGCollections[0] != 0)
+            for (int i = 0; i < oGCollections.length; i++)
+                oGCollections[i] += mem;
+    }
+
+    private void reduceArrayMembers(int mem) {
+        if (oGCollections.length >= 1 && oGCollections[0] != 0)
+            for (int i = 0; i < oGCollections.length; i++)
+                oGCollections[i] -= mem;
+    }
+
     @Override
     public void add(int o) {
+        increaseArrayMembers(o);
         if (oGCollections[0] == 0 && lengthCol == 1)
             oGCollections[0] = o;
         else if (oGCollections[0] > 0 || oGCollections[0] < 0) {
@@ -33,6 +46,7 @@ public class OGCollectionsInt extends AbstractOGCollection implements OGCollecti
 
     @Override
     public boolean delByIndex(int i) {
+        reduceArrayMembers(oGCollections[i]);
         if (i < lengthCol) {
             // Destination array
             int arrOut[] = Arrays.copyOf(oGCollections, oGCollections.length - 1);
